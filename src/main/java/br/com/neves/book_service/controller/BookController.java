@@ -11,6 +11,8 @@ import br.com.neves.book_service.proxy.SimpleExchangeConvertedDTO;
 import br.com.neves.book_service.service.BookService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ import java.net.URI;
 @RequestMapping("/book-service")
 public class BookController {
 
+    private static final Logger log = LoggerFactory.getLogger(BookController.class);
     @Autowired
     private BookService service;
 
@@ -34,6 +37,8 @@ public class BookController {
 
     @Autowired
     private ExchangeProxy exchangeProxy;
+
+
 
     @GetMapping()
     public ResponseEntity<Page<BookDetailsDTO>> findAll (@PageableDefault Pageable pageable){
@@ -49,7 +54,9 @@ public class BookController {
     public ResponseEntity<BookDetailsDTO> findById(@PathVariable Long id,
                                                    @PathVariable Currency from){
         Book book = service.findById(id);
+        log.info("Calculando o teste papa");
         SimpleExchangeConvertedDTO convertedDTO= exchangeProxy.exchangeConvert(book.getPrice(),Currency.USD, from).getBody();
+
         return ResponseEntity.ok(new BookDetailsDTO(book, convertedDTO.valueConverted(), convertedDTO.environment()));
     }
 
