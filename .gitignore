@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 .env*
 !.env.example
+./k8s/secret-env.yaml
 ### STS ###
 .apt_generated
 .classpath

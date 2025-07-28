@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql-book
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mysql-book
+    spec:
+      containers:
+        - name: mysql-book
+          image: mysql:8
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - configMapRef:
+                name: book-config
+            - secretRef:
+                name: book-secrets
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mysql-book-storage
+      volumes:
+        - name: mysql-book-storage
+          persistentVolumeClaim:
+            claimName: mysql-book-pvc
