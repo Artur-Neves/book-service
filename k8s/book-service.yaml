@@ -6,10 +6,18 @@ metadata:
   name: book-service
   namespace: default
 spec:
-  type: LoadBalancer
+  allocateLoadBalancerNodePorts: true
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
   ports:
-    - port: 8100
-      targetPort: 8100
+    - nodePort: 32330
+      port: 8100
       protocol: TCP
+      targetPort: 8100
   selector:
     app: book-service
+  sessionAffinity: None
+  type: LoadBalancer

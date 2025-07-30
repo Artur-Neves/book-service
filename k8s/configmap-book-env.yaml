@@ -3,5 +3,5 @@ kind: ConfigMap
 metadata:
   name: book-config
 data:
-  DB_URL: jdbc:mysql://mysql-book-service:3306/book-service?createDatabaseIfNotExist=true
+  DB_URL: jdbc:mysql://mysql-book:3306/book-service?createDatabaseIfNotExist=true
   EXCHANGE_SERVICE_SERVICE_HOST: http://exchange-service
